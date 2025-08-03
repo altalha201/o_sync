@@ -43,20 +43,21 @@ Future<String> oSNetworkRequest(
 Future<String> oSNetworkFileRequest({
   required String url,
   required Map<String, String> header,
+  required String fieldName,
   required String filePath,
 }) async {
   final request = http.MultipartRequest(
     OSyncNetworkMethod.post.value,
     Uri.parse(url),
   );
-  request.files.add(await http.MultipartFile.fromPath('file', filePath));
+  request.files.add(await http.MultipartFile.fromPath(fieldName, filePath));
   request.headers.addAll(header);
 
   final response = await request.send();
   final data = await response.stream.bytesToString();
   final apiResponse = NetworkResponse.fromRawJson(data);
   Logger.plain(
-    "FILE UPLOADED SUCCESS: ${(apiResponse.success).toString().toUpperCase()}",
+    "FILE ${filePath.split("/").last} UPLOADED SUCCESS: ${(apiResponse.success).toString().toUpperCase()}",
     false,
   );
   return data;

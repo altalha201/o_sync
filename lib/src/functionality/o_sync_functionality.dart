@@ -79,6 +79,8 @@ class OSync {
   static Future<Either<Exception, bool>> upload({
     required Map<String, String> headers,
     required List<OSyncTable> tables,
+    String fieldName = 'file',
+    bool deleteImage = false,
   }) async {
     try {
       // Run both data fetching operations concurrently
@@ -112,6 +114,8 @@ class OSync {
         final uploadResponse = await osUploadFiles(
           headers,
           notUploadedFiles as List<OSFileTable>,
+          fieldName,
+          deleteImage,
         );
         uploadResponse.fold(
           (e) => throw e,

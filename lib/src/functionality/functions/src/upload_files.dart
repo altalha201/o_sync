@@ -3,6 +3,7 @@ part of '../functions.dart';
 Future<Either<dynamic, bool>> osUploadFiles(
   Map<String, String> headers,
   List<OSFileTable> files, [
+  String fieldName = 'file',
   bool deleteImage = false,
 ]) async {
   try {
@@ -29,6 +30,7 @@ Future<Either<dynamic, bool>> osUploadFiles(
           url: url,
           header: headers,
           filePath: file.path,
+          fieldName: fieldName,
         );
 
         responseData = NetworkResponse.fromRawJson(response);

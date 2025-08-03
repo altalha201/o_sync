@@ -58,5 +58,6 @@ class UploadParams {
   final Map<String, String> headers;
   final List<OSyncNotUploadedData> rows;
 
+
   UploadParams({required this.headers, required this.rows});
 }

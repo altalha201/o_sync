@@ -17,7 +17,7 @@ class NetworkResponse {
 
   factory NetworkResponse.fromJson(Map<String, dynamic> map) =>
       NetworkResponse()
-        ..success = map[_Json.success] ?? false
+        ..success = map[_Json.success] ?? (map[_Json.status] == "success") ?? false
         ..tableName = map[_Json.tableName] ?? ''
         ..statusCode = map[_Json.statusCode] ?? 0
         ..message = _formatMessage(map[_Json.message])
@@ -113,4 +113,5 @@ class _Json {
   static const String total = 'total';
   static const String lastPage = 'last_page';
   static const String pagination = 'pagination';
+  static const String status = 'status';
 }
