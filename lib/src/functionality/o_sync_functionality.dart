@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 
 import '../core/logger/logger.dart';
@@ -134,6 +136,13 @@ class OSync {
     required Map<String, dynamic> data,
   }) async {
     return await osSaveToTable(table, data).then(
+      (v) =>
+          v.fold((e) => Left(Exception(e.toString())), (data) => Right(data)),
+    );
+  }
+
+  static Future<Either<Exception, bool>> saveFile(File file) async {
+    return await oSSaveFile(file).then(
       (v) =>
           v.fold((e) => Left(Exception(e.toString())), (data) => Right(data)),
     );

@@ -1,9 +1,9 @@
 part of '../functions.dart';
 
 Future<Either<dynamic, bool>> osSaveToTable(
-    OSyncTable table,
-    Map<String, dynamic> data,
-    ) async {
+  OSyncTable table,
+  Map<String, dynamic> data,
+) async {
   try {
     switch (table.tableType) {
       case OSyncTableType.downloadTable:
@@ -19,10 +19,11 @@ Future<Either<dynamic, bool>> osSaveToTable(
 }
 
 Future<Either<dynamic, bool>> _saveToDownloadTable(
-    OSyncTable table,
-    Map<String, dynamic> data,
-    ) async {
-  final box = HiveBoxes.downloadTable.get(table.id) ??
+  OSyncTable table,
+  Map<String, dynamic> data,
+) async {
+  final box =
+      HiveBoxes.downloadTable.get(table.id) ??
       OSDownloadTable(
         tableKey: table.id,
         tableName: table.label,
@@ -36,15 +37,12 @@ Future<Either<dynamic, bool>> _saveToDownloadTable(
 }
 
 Future<Either<dynamic, bool>> _saveToUploadTable(
-    OSyncTable table,
-    Map<String, dynamic> data,
-    ) async {
-  final box = HiveBoxes.uploadTable.get(table.id) ??
-      OSUploadTable(
-        tableKey: table.id,
-        tableName: table.label,
-        rows: [],
-      );
+  OSyncTable table,
+  Map<String, dynamic> data,
+) async {
+  final box =
+      HiveBoxes.uploadTable.get(table.id) ??
+      OSUploadTable(tableKey: table.id, tableName: table.label, rows: []);
 
   box.rows.add(OSUploadData(id: box.rows.length, data: data));
   await box.saveToHive;

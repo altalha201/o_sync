@@ -24,6 +24,8 @@ part 'src/not_uploaded_data.dart';
 
 part 'src/not_uploaded_files.dart';
 
+part 'src/save_file.dart';
+
 part 'src/save_to_table.dart';
 
 part 'src/upload_data.dart';
