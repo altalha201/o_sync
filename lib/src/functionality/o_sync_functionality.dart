@@ -164,6 +164,15 @@ class OSync {
     );
   }
 
+  static Future<Either<Exception, OSyncData<OSFileTable>>> getFileData([
+    String tableName = 'file table',
+  ]) async {
+    return await osGetFileTable(tableName).then(
+      (v) =>
+          v.fold((e) => Left(Exception(e.toString())), (data) => Right(data)),
+    );
+  }
+
   static Future<Either<Exception, List<Map<String, dynamic>>>> getDataFromTable(
     OSyncTable table,
   ) async {

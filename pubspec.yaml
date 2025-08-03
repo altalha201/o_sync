@@ -1,6 +1,6 @@
 name: o_sync
 description: "A Mass Data Transaction Package"
-version: 0.0.2
+version: 0.0.3
 homepage:
 
 environment:

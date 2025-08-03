@@ -18,6 +18,8 @@ part 'src/get_data_from_table.dart';
 
 part 'src/get_download_data.dart';
 
+part 'src/get_file_data.dart';
+
 part 'src/get_upload_data.dart';
 
 part 'src/not_uploaded_data.dart';
