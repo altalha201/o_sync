@@ -1,17 +1,24 @@
 part of '../functions.dart';
 
+/// Retrieves all files from [HiveBoxes.fileTable] that have not been uploaded yet.
+///
+/// Returns a [Right] containing a list of [OSFileTable] if successful,
+/// or a [Left] with an error message on failure.
 Future<Either<dynamic, List<OSFileTable>>> osNotUploadedFiles() async {
   try {
-    // Process files
-    final notUploadedFiles =
-        HiveBoxes.fileTable.values.where((file) => !file.uploaded).toList();
+    final notUploadedFiles = HiveBoxes.fileTable.values
+        .where((file) => !file.uploaded)
+        .toList();
 
     if (notUploadedFiles.isNotEmpty) {
-      Logger.plain("There are ${notUploadedFiles.length} files to upload");
+      Logger.plain("There are ${notUploadedFiles.length} files pending upload");
+    } else {
+      Logger.plain("No pending files to upload");
     }
 
     return Right(notUploadedFiles);
-  } catch (e) {
-    return Left(e.toString());
+  } catch (e, stackTrace) {
+    Logger.error("Failed to fetch not-uploaded files: $e\n$stackTrace");
+    return Left(e);
   }
 }

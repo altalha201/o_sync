@@ -1,32 +1,44 @@
 part of '../functions.dart';
 
-Future<Either<dynamic, List<OSyncNotUploadedData>>> osGetNotUploadedData(
-  List<OSyncTable> tables,
-) async {
+/// Retrieves all rows that have not been uploaded yet for the given [tables].
+///
+/// Only tables of type [OSyncTableType.uploadTable] are considered.
+/// Returns [Right] containing a list of [OSyncNotUploadedData] on success,
+/// or [Left] with an error on failure.
+Future<Either<dynamic, List<OSyncNotUploadedData>>> osGetNotUploadedData({
+  required List<OSyncTable> tables,
+}) async {
   try {
-    final returnData = <OSyncNotUploadedData>[];
+    final List<OSyncNotUploadedData> returnData = [];
+
+    // Filter only upload tables
     final uploadTables = tables.where(
-      (e) => e.tableType == OSyncTableType.uploadTable,
+      (table) => table.tableType == OSyncTableType.uploadTable,
     );
 
-    // Process upload tables
     for (final table in uploadTables) {
-      final tableValues = HiveBoxes.uploadTable.get(table.id);
-      final notUploaded =
-          tableValues?.rows.where((e) => !e.uploaded).toList() ?? [];
+      final hiveTable = HiveBoxes.uploadTable.get(table.id);
+      if (hiveTable == null) continue;
 
-      if (notUploaded.isEmpty) continue;
+      final notUploadedRows =
+          hiveTable.rows.where((row) => !row.uploaded).toList();
 
-      Logger.plain("${table.label} has ${notUploaded.length} data to upload");
+      if (notUploadedRows.isEmpty) continue;
+
+      Logger.plain(
+        "${table.label} has ${notUploadedRows.length} rows to upload",
+      );
+
       returnData.addAll(
-        notUploaded.map(
+        notUploadedRows.map(
           (data) => OSyncNotUploadedData(table: table, data: data),
         ),
       );
     }
 
     return Right(returnData);
-  } catch (e) {
+  } catch (e, stackTrace) {
+    Logger.error("Failed to get not-uploaded data: $e\n$stackTrace");
     return Left(e);
   }
 }

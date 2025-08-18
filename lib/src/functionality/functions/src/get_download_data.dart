@@ -1,25 +1,30 @@
 part of '../functions.dart';
 
-Future<Either<dynamic, List<OSyncData<OSDownloadData>>>>
-osGetDownLoadTables() async {
+/// Returns all download tables stored in Hive as a list of `OSyncData<OSDownloadData>`.
+///
+/// Wraps the result in an `Either` to capture potential errors.
+Future<Either<dynamic, List<OSyncData<OSDownloadData>>>> osGetDownloadTables() async {
   try {
+    // Get the download table box
     final box = HiveBoxes.downloadTable;
 
-    final tables = box.values;
+    // Read all tables from Hive
+    final tables = box.values.toList().cast<OSDownloadTable>();
 
-    final List<OSyncData<OSDownloadData>> returnList =
-        tables
-            .map(
-              (table) => OSyncData(
-                tableName: table.tableName,
-                tableData: table.rows,
-                tableId: table.tableKey,
-              ),
-            )
-            .toList();
+    // Map Hive tables to generic OSyncData objects
+    final List<OSyncData<OSDownloadData>> returnList = tables.map(
+          (table) {
+        return OSyncData<OSDownloadData>(
+          tableName: table.tableName,
+          tableData: table.rows,
+          tableId: table.tableKey,
+        );
+      },
+    ).toList();
 
     return Right(returnList);
-  } catch (e) {
+  } catch (e, stackTrace) {
+    Logger.error('Failed to get download tables: $e\n$stackTrace');
     return Left(e);
   }
 }

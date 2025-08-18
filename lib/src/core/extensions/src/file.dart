@@ -1,10 +1,14 @@
 part of '../extensions.dart';
 
+/// Extension on [File] providing convenient file information helpers.
 extension OSFileExt on File {
+  /// Returns the file name (last part of the path).
   String get name => path.split('/').last;
 
+  /// Returns the file extension without the dot, e.g., `jpg`, `pdf`.
   String get fileType => path.split('.').last;
 
+  /// Returns the file size in a human-readable format (B, KB, MB, GB, TB).
   String get realSize {
     final bytes = lengthSync();
     if (bytes <= 0) return "0 B";
@@ -16,10 +20,14 @@ extension OSFileExt on File {
     return "${size.toStringAsFixed(2)} ${suffixes[i]}";
   }
 
+  /// Returns the lowercase file extension using the `path` package.
   String get type {
     return p.extension(path).replaceFirst('.', '').toLowerCase();
   }
 
+  /// Categorizes the file based on its extension.
+  ///
+  /// Categories include: `Image`, `Video`, `Audio`, `Document`, `Archive`, or `Other`.
   String get category {
     final ext = type;
 

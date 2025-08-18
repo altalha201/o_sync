@@ -1,9 +1,9 @@
 import 'package:hive_ce/hive.dart';
-
 import '../../../../core/constants/hive.dart';
 
 part 'upload_table.g.dart';
 
+/// A Hive model representing a table that holds unsynced upload data.
 @HiveType(typeId: HiveBoxType.uploadTable)
 class OSUploadTable extends HiveObject {
   @HiveField(0)
@@ -18,10 +18,15 @@ class OSUploadTable extends HiveObject {
   OSUploadTable({
     required this.tableKey,
     required this.tableName,
-    this.rows = const [],
-  });
+    List<OSUploadData>? rows,
+  }) : rows = rows ?? [];
+
+  /// Returns a copy of this table with updated rows.
+  OSUploadTable withNewData(List<OSUploadData> newRows) =>
+      OSUploadTable(tableKey: tableKey, tableName: tableName, rows: newRows);
 }
 
+/// A Hive model representing a single row of upload data.
 @HiveType(typeId: HiveBoxType.uploadData)
 class OSUploadData extends HiveObject {
   @HiveField(0)
@@ -31,22 +36,28 @@ class OSUploadData extends HiveObject {
   bool uploaded;
 
   @HiveField(2)
-  Map<String, dynamic>? data;
+  Map<String, Object?>? data;
 
   OSUploadData({required this.id, this.uploaded = false, this.data});
+
+  /// Returns a copy of this object with updated fields.
+  OSUploadData copyWith({int? id, bool? uploaded, Map<String, Object?>? data}) {
+    return OSUploadData(
+      id: id ?? this.id,
+      uploaded: uploaded ?? this.uploaded,
+      data: data ?? this.data,
+    );
+  }
+
+  /// Returns a copy of this object marked as synced.
+  OSUploadData get withSynced => copyWith(uploaded: true);
 }
 
+/// Extension on [OSUploadTable] to persist into Hive.
 extension UploadTableExt on OSUploadTable {
-  Future<void> get saveToHive async {
+  /// Saves the current table instance to Hive.
+  Future<void> saveToHive() async {
     final box = HiveBoxes.uploadTable;
     await box.put(tableKey, this);
   }
-
-  OSUploadTable withNewData(List<OSUploadData> data) =>
-      OSUploadTable(tableKey: tableKey, tableName: tableName, rows: data);
-}
-
-extension UploadDataExt on OSUploadData {
-  OSUploadData get withSynced =>
-      OSUploadData(id: id, data: data, uploaded: true);
 }

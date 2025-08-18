@@ -1,13 +1,16 @@
 part of '../functions.dart';
 
+/// Retrieves all upload tables stored in Hive as a list of [OSyncData].
+///
+/// Returns [Right] containing a list of [OSyncData<OSUploadData>] on success,
+/// or [Left] with an error on failure.
 Future<Either<dynamic, List<OSyncData<OSUploadData>>>>
 osGetUploadTables() async {
   try {
     final box = HiveBoxes.uploadTable;
-
     final tables = box.values;
 
-    final List<OSyncData<OSUploadData>> returnList =
+    final List<OSyncData<OSUploadData>> uploadTables =
         tables
             .map(
               (table) => OSyncData(
@@ -18,8 +21,9 @@ osGetUploadTables() async {
             )
             .toList();
 
-    return Right(returnList);
-  } catch (e) {
+    return Right(uploadTables);
+  } catch (e, stackTrace) {
+    Logger.error("Failed to get upload tables: $e\n$stackTrace");
     return Left(e);
   }
 }

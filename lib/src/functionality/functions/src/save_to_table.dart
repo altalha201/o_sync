@@ -1,28 +1,38 @@
 part of '../functions.dart';
 
-Future<Either<dynamic, bool>> osSaveToTable(
-  OSyncTable table,
-  Map<String, dynamic> data,
-) async {
+/// Saves [data] to the given [OSyncTable].
+///
+/// Supports both [OSyncTableType.downloadTable] and [OSyncTableType.uploadTable].
+/// Returns:
+/// - [Right(true)] if the data was successfully saved.
+/// - [Left(error)] if an exception occurs.
+Future<Either<dynamic, bool>> osSaveToTable({
+  required OSyncTable table,
+  required Map<String, dynamic> data,
+}) async {
   try {
     switch (table.tableType) {
       case OSyncTableType.downloadTable:
         return _saveToDownloadTable(table, data);
+
       case OSyncTableType.uploadTable:
         return _saveToUploadTable(table, data);
+
       default:
-        throw Exception('Table not found');
+        throw Exception('Unsupported table type: ${table.tableType}');
     }
-  } catch (e) {
+  } catch (e, stackTrace) {
+    Logger.error("Failed to save to table ${table.label}: $e\n$stackTrace");
     return Left(e);
   }
 }
 
+/// Saves a row of data to a [OSDownloadTable].
 Future<Either<dynamic, bool>> _saveToDownloadTable(
   OSyncTable table,
   Map<String, dynamic> data,
 ) async {
-  final box =
+  final hiveTable =
       HiveBoxes.downloadTable.get(table.id) ??
       OSDownloadTable(
         tableKey: table.id,
@@ -31,20 +41,44 @@ Future<Either<dynamic, bool>> _saveToDownloadTable(
         rows: [],
       );
 
-  box.rows.add(OSDownloadData(index: box.rows.length, data: data));
-  await box.saveToHive;
+  final nextIndex =
+      hiveTable.rows.isEmpty
+          ? 1
+          : hiveTable.rows
+                  .map((e) => e.index)
+                  .fold<int>(0, (p, e) => e > p ? e : p) +
+              1;
+
+  hiveTable.rows.add(OSDownloadData(index: nextIndex, data: data));
+  hiveTable.lastUpdated = DateTime.now();
+
+  await hiveTable.saveToHive();
+
+  Logger.plain("Saved row to download table ${table.label} (index $nextIndex)");
   return const Right(true);
 }
 
+/// Saves a row of data to an [OSUploadTable].
 Future<Either<dynamic, bool>> _saveToUploadTable(
   OSyncTable table,
   Map<String, dynamic> data,
 ) async {
-  final box =
+  final hiveTable =
       HiveBoxes.uploadTable.get(table.id) ??
       OSUploadTable(tableKey: table.id, tableName: table.label, rows: []);
 
-  box.rows.add(OSUploadData(id: box.rows.length, data: data));
-  await box.saveToHive;
+  final nextId =
+      hiveTable.rows.isEmpty
+          ? 1
+          : hiveTable.rows
+                  .map((e) => e.id)
+                  .fold<int>(0, (p, e) => e > p ? e : p) +
+              1;
+
+  hiveTable.rows.add(OSUploadData(id: nextId, data: data));
+
+  await hiveTable.saveToHive;
+
+  Logger.plain("Saved row to upload table ${table.label} (id $nextId)");
   return const Right(true);
 }

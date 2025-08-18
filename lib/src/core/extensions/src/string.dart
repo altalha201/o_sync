@@ -1,5 +1,5 @@
 part of '../extensions.dart';
 
 extension OSStringExtension on String {
-  String get snackCase => replaceAll(" ", "_").toLowerCase();
+  String get snakeCase => replaceAll(" ", "_").toLowerCase();
 }
