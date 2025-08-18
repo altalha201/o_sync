@@ -48,7 +48,7 @@ Future<Either<dynamic, bool>> osUploadData({
           ];
 
           final updatedTable = table.withNewData(updatedRows);
-          await updatedTable.saveToHive;
+          await updatedTable.saveToHive();
         }
       } else {
         throw Exception(responseData.message);

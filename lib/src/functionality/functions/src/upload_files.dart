@@ -59,7 +59,7 @@ Future<Either<dynamic, bool>> osUploadFiles({
 
       if (responseData.success) {
         final updatedImage = file.withSynced;
-        await updatedImage.saveToHive;
+        await updatedImage.saveToHive();
 
         if (deleteImage) {
           await uploadFile.delete();

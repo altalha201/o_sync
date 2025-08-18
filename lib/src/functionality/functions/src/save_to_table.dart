@@ -80,7 +80,7 @@ Future<Either<dynamic, bool>> _saveToUploadTable(
 
   hiveTable.rows.add(OSUploadData(id: nextId, data: data));
 
-  await hiveTable.saveToHive;
+  await hiveTable.saveToHive();
 
   Logger.plain("Saved row to upload table ${table.label} (id $nextId)");
   return const Right(true);

@@ -21,7 +21,7 @@ Future<Either<dynamic, bool>> oSSaveFile({required File file}) async {
 
     final fileTable = OSFileTable(index: nextIndex, path: file.path);
 
-    await fileTable.saveToHive;
+    await fileTable.saveToHive();
 
     Logger.plain("File saved to sync queue: ${file.path} (index $nextIndex)");
 

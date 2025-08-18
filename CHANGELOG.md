@@ -1,6 +1,10 @@
+## 0.0.4+2
+
+- Fix `saveToHive` issue in hive models.
+
 ## 0.0.4+1
 
-- Added `©CopyRight` with `MIT License`.
+- Copyright (c) 2025 OSync Authors. All rights reserved.
 
 ## 0.0.4
 

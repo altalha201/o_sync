@@ -57,7 +57,7 @@ Future<Either<dynamic, bool>> osDownloadData({
         rows: tableData,
       );
 
-      await hiveTable.saveToHive;
+      await hiveTable.saveToHive();
       Logger.plain("Total rows for table ${table.label}: ${tableData.length}");
     }
 
