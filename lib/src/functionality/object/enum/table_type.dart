@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 /// Represents the type of an Offline Sync table.
 ///
 /// Used to distinguish between upload tables, download tables, file tables,

@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 import 'package:flutter/foundation.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:path/path.dart' as p;

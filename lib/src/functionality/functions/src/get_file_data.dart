@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 part of '../functions.dart';
 
 /// Retrieves all files stored in the Hive file table as `OSyncData<OSFileTable>`.

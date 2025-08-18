@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 part of '../functions.dart';
 
 /// Uploads un-synced data rows to the API and marks them as uploaded in Hive.

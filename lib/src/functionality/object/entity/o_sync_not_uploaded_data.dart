@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 import '../enum/table_type.dart';
 import '../models/up/upload_table.dart';
 import 'o_sync_table.dart';

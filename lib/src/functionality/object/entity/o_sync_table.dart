@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 import '../../../core/network/enum/api_method.dart';
 import '../enum/table_type.dart';
 

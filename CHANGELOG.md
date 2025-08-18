@@ -1,3 +1,7 @@
+## 0.0.4+1
+
+- Added `©CopyRight` with `MIT License`.
+
 ## 0.0.4
 
 - Renamed `FileExt` → `OSFileExt`

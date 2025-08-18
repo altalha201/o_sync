@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -19,11 +22,11 @@ class OSync {
   /// - [basePackage] : Package or app identifier.
   /// - [baseUrl] : The base API URL for syncing.
   /// - [fileUploadPath] : Optional endpoint path for file uploads.
-  static Future<void> init(
-      String basePackage,
-      String baseUrl, [
-        String? fileUploadPath,
-      ]) async {
+  static Future<void> init({
+    required String basePackage,
+    required String baseUrl,
+    String? fileUploadPath,
+  }) async {
     final info = OSBasicInfo(
       packageName: basePackage,
       baseUrl: baseUrl,
@@ -45,8 +48,8 @@ class OSync {
   }) async {
     final response = await oSClearTables(onlyUp: !clearAll);
     return response.fold(
-          (e) => Left(Exception(e.toString())),
-          (data) => Right(data),
+      (e) => Left(Exception(e.toString())),
+      (data) => Right(data),
     );
   }
 
@@ -62,7 +65,9 @@ class OSync {
       headers: headers,
       body: body,
       tables:
-      tables.where((e) => e.tableType == OSyncTableType.downloadTable).toList(),
+          tables
+              .where((e) => e.tableType == OSyncTableType.downloadTable)
+              .toList(),
     );
 
     return response.fold((e) => Left(Exception(e.toString())), Right.new);
@@ -70,8 +75,8 @@ class OSync {
 
   /// Returns the total count of not-yet-uploaded data + files.
   static Future<Either<Exception, int>> notUploadedCount(
-      List<OSyncTable> tables,
-      ) async {
+    List<OSyncTable> tables,
+  ) async {
     try {
       final results = await Future.wait([
         osGetNotUploadedData(tables: tables),
@@ -107,12 +112,12 @@ class OSync {
       ]);
 
       final notUploadedData = results[0].fold(
-            (e) => throw e,
-            (data) => data as List<OSyncNotUploadedData>,
+        (e) => throw e,
+        (data) => data as List<OSyncNotUploadedData>,
       );
       final notUploadedFiles = results[1].fold(
-            (e) => throw e,
-            (data) => data as List<OSFileTable>,
+        (e) => throw e,
+        (data) => data as List<OSFileTable>,
       );
 
       bool anySuccess = false;
@@ -122,10 +127,7 @@ class OSync {
           headers: headers,
           rows: notUploadedData,
         );
-        uploadResponse.fold(
-              (e) => throw e,
-              (success) => anySuccess |= success,
-        );
+        uploadResponse.fold((e) => throw e, (success) => anySuccess |= success);
       }
 
       if (notUploadedFiles.isNotEmpty) {
@@ -135,10 +137,7 @@ class OSync {
           fieldName: fieldName,
           deleteImage: deleteAfterUpload,
         );
-        uploadResponse.fold(
-              (e) => throw e,
-              (success) => anySuccess |= success,
-        );
+        uploadResponse.fold((e) => throw e, (success) => anySuccess |= success);
       }
 
       return Right(anySuccess);
@@ -151,64 +150,39 @@ class OSync {
   static Future<Either<Exception, bool>> saveToTable({
     required OSyncTable table,
     required Map<String, dynamic> data,
-  }) =>
-      osSaveToTable(table: table, data: data).then(
-            (v) => v.fold(
-              (e) => Left(Exception(e.toString())),
-          Right.new,
-        ),
-      );
+  }) => osSaveToTable(
+    table: table,
+    data: data,
+  ).then((v) => v.fold((e) => Left(Exception(e.toString())), Right.new));
 
   /// Saves a file locally for future syncing.
-  static Future<Either<Exception, bool>> saveFile({
-    required File file,
-  }) =>
-      oSSaveFile(file: file).then(
-            (v) => v.fold(
-              (e) => Left(Exception(e.toString())),
-          Right.new,
-        ),
-      );
+  static Future<Either<Exception, bool>> saveFile({required File file}) =>
+      oSSaveFile(
+        file: file,
+      ).then((v) => v.fold((e) => Left(Exception(e.toString())), Right.new));
 
   /// Retrieves all data from download tables.
   static Future<Either<Exception, List<OSyncData<OSDownloadData>>>>
-  getDownloadData() =>
-      osGetDownloadTables().then(
-            (v) => v.fold(
-              (e) => Left(Exception(e.toString())),
-          Right.new,
-        ),
-      );
+  getDownloadData() => osGetDownloadTables().then(
+    (v) => v.fold((e) => Left(Exception(e.toString())), Right.new),
+  );
 
   /// Retrieves all data from upload tables.
   static Future<Either<Exception, List<OSyncData<OSUploadData>>>>
-  getUploadData() =>
-      osGetUploadTables().then(
-            (v) => v.fold(
-              (e) => Left(Exception(e.toString())),
-          Right.new,
-        ),
-      );
+  getUploadData() => osGetUploadTables().then(
+    (v) => v.fold((e) => Left(Exception(e.toString())), Right.new),
+  );
 
   /// Retrieves the file table data.
   static Future<Either<Exception, OSyncData<OSFileTable>>> getFileData({
     String tableName = 'file table',
-  }) =>
-      osGetFileTable(tableName: tableName).then(
-            (v) => v.fold(
-              (e) => Left(Exception(e.toString())),
-          Right.new,
-        ),
-      );
+  }) => osGetFileTable(
+    tableName: tableName,
+  ).then((v) => v.fold((e) => Left(Exception(e.toString())), Right.new));
 
   /// Retrieves raw data from a specific [table].
-  static Future<Either<Exception, List<Map<String, dynamic>>>> getDataFromTable({
-    required OSyncTable table,
-  }) =>
-      osGetDataFromTable(table: table).then(
-            (res) => res.fold(
-              (e) => Left(Exception(e.toString())),
-          Right.new,
-        ),
-      );
+  static Future<Either<Exception, List<Map<String, dynamic>>>>
+  getDataFromTable({required OSyncTable table}) => osGetDataFromTable(
+    table: table,
+  ).then((res) => res.fold((e) => Left(Exception(e.toString())), Right.new));
 }

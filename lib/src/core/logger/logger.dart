@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:o_sync/src/core/extensions/extensions.dart';

@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 /// Generic wrapper representing a table and its data for Offline Sync.
 ///
 /// [T] is the type of data stored in the table, e.g., [OSUploadData], [OSDownloadData], or [OSFileTable].

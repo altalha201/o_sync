@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'file_table.dart';

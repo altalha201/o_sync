@@ -1,39 +1,59 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# o_sync
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+**A Mass Data Transaction Package for Flutter & Dart**
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+o_sync provides a robust way to handle **large-scale data synchronization** between local storage (Hive) and remote servers.  
+It supports uploading, downloading, file syncing, and custom table mapping with ease.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+---
 
-## Features
+## ✨ Features
+- 📦 Hive-based local data storage.
+- 🔄 Mass upload & download synchronization.
+- 📂 File sync (upload/download large files).
+- 🌐 Built-in network request & logging utilities.
+- 🛠 Handy extensions for `DateTime`, `File`, `Map`, `BuildContext`.
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+---
 
-## Getting started
+## 📥 Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add the package to your `pubspec.yaml`:
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  o_sync: ^0.0.4
 ```
 
-## Additional information
+Run
+```bash
+flutter pub get
+```
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+## 🛠️ Setup
+
+Ensure Initialization before running app.
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:o_sync/o_sync.dart';
+/// Other Imports...
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await OSync.init(
+    basePackage: 'app-name',
+    baseUrl: 'https://api.example.com',
+    fileUploadPath: 'files', /// Optional endpoint for file uploads
+  );
+  
+  runApp(MyApp());
+}
+
+/// Your Remaining Code...
+```
+
+## License
+This project is licensed under the `MIT License`.
+

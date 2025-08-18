@@ -1,3 +1,6 @@
+// Copyright (c) 2025 OSync Authors. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the root directory.
+
 part of '../functions.dart';
 
 /// Downloads data from the API for the given [tables] and saves it to Hive.
