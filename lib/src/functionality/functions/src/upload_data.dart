@@ -65,7 +65,7 @@ Future<Either<dynamic, bool>> osUploadData({
     );
     Logger.plain("Took $timeTaken to complete Data Upload");
 
-    return Right(hasError);
+    return Right(!hasError);
   } catch (e, stackTrace) {
     Logger.error("Upload failed: $e\n$stackTrace");
     return Left(e);
