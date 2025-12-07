@@ -185,4 +185,13 @@ class OSync {
   getDataFromTable({required OSyncTable table}) => osGetDataFromTable(
     table: table,
   ).then((res) => res.fold((e) => Left(Exception(e.toString())), Right.new));
+
+  /// Deletes a row from a table based on its [tableType].
+  static Future<Either<Exception, bool>> deleteRowFromTable({
+    required OSyncTable table,
+    required int id,
+  }) => osDeleteRowFromTable(
+    table,
+    id,
+  ).then((res) => res.fold((e) => Left(Exception(e.toString())), Right.new));
 }

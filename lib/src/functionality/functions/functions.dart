@@ -15,6 +15,8 @@ import '../object/exports.dart';
 
 part 'src/clear_data.dart';
 
+part 'src/delete_a_row_form_table.dart';
+
 part 'src/download_data.dart';
 
 part 'src/get_data_from_table.dart';

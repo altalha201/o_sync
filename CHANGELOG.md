@@ -1,3 +1,8 @@
+## 0.0.5
+
+- Added ability to delete a row from a table via `OSyncFunctionality.deleteRowFromTable`
+- Improved upload behavior to continue processing even if some requests fail
+
 ## 0.0.4+2
 
 - Fix `saveToHive` issue in hive models.

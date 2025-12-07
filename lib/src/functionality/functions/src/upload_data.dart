@@ -27,6 +27,8 @@ Future<Either<dynamic, bool>> osUploadData({
     final basicInfo = basicInfos.first;
     Logger.plain("Upload Started: ${startTime.toTimeString12}");
 
+    bool hasError = false;
+
     for (final entry in rows) {
       final response = await oSNetworkRequest(
         "${basicInfo.baseUrl}/${entry.table.apiEndPoint}",
@@ -51,17 +53,19 @@ Future<Either<dynamic, bool>> osUploadData({
           await updatedTable.saveToHive();
         }
       } else {
-        throw Exception(responseData.message);
+        hasError = true;
       }
     }
 
     final endTime = DateTime.now();
     final timeTaken = endTime.difference(startTime);
 
-    Logger.plain("Upload Data Completed At: ${endTime.toTimeString12}");
+    Logger.plain(
+      "Upload Data Completed At: ${endTime.toTimeString12}${hasError ? " (with errors)" : ""}",
+    );
     Logger.plain("Took $timeTaken to complete Data Upload");
 
-    return const Right(true);
+    return Right(hasError);
   } catch (e, stackTrace) {
     Logger.error("Upload failed: $e\n$stackTrace");
     return Left(e);
