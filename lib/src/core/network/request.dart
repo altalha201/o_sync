@@ -159,7 +159,7 @@ Future<String> oSNetworkRequestWithFile(
 
   if (body != null) {
     body.forEach((key, value) {
-      request.fields[key] = value.toString();
+      request.fields[key] = value;
     });
   }
 
