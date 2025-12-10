@@ -60,7 +60,7 @@ class OSUploadDataAdapter extends TypeAdapter<OSUploadData> {
       id: (fields[0] as num).toInt(),
       uploaded: fields[1] == null ? false : fields[1] as bool,
       data: (fields[2] as Map?)?.cast<String, Object?>(),
-      files: (fields[3] as Map?)?.cast<String, File>(),
+      files: (fields[3] as Map?)?.cast<String, String>(),
     );
   }
 

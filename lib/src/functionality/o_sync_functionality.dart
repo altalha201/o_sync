@@ -150,7 +150,7 @@ class OSync {
   static Future<Either<Exception, bool>> saveToTable({
     required OSyncTable table,
     required Map<String, dynamic> data,
-    Map<String, File>? files,
+    Map<String, String>? files,
   }) => osSaveToTable(
     table: table,
     data: data,

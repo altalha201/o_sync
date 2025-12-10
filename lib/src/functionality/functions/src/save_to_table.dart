@@ -12,7 +12,7 @@ part of '../functions.dart';
 Future<Either<dynamic, bool>> osSaveToTable({
   required OSyncTable table,
   required Map<String, dynamic> data,
-  Map<String, File>? files,
+  Map<String, String>? files,
 }) async {
   try {
     switch (table.tableType) {
@@ -66,7 +66,7 @@ Future<Either<dynamic, bool>> _saveToDownloadTable(
 Future<Either<dynamic, bool>> _saveToUploadTable(
   OSyncTable table,
   Map<String, dynamic> data,
-  Map<String, File>? files,
+  Map<String, String>? files,
 ) async {
   final hiveTable =
       HiveBoxes.uploadTable.get(table.id) ??

@@ -1,8 +1,6 @@
 // Copyright (c) 2025 OSync Authors. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the root directory.
 
-import 'dart:io';
-
 import 'package:hive_ce/hive.dart';
 import '../../../../core/constants/hive.dart';
 
@@ -44,7 +42,7 @@ class OSUploadData extends HiveObject {
   Map<String, Object?>? data;
 
   @HiveField(3)
-  Map<String, File>? files;
+  Map<String, String>? files;
 
   OSUploadData({
     required this.id,
@@ -58,7 +56,7 @@ class OSUploadData extends HiveObject {
     int? id,
     bool? uploaded,
     Map<String, Object?>? data,
-    Map<String, File>? files,
+    Map<String, String>? files,
   }) {
     return OSUploadData(
       id: id ?? this.id,

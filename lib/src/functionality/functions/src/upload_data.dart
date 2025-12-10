@@ -47,7 +47,7 @@ Future<Either<dynamic, bool>> osUploadData({
         entry.table.apiMethode.value,
         header: headers,
         body: entry.data.data,
-        files: entry.data.files?.map((k, v) => MapEntry(k, v.path)),
+        files: entry.data.files,
         showRequestData: true,
       );
 
