@@ -150,9 +150,11 @@ class OSync {
   static Future<Either<Exception, bool>> saveToTable({
     required OSyncTable table,
     required Map<String, dynamic> data,
+    Map<String, File>? files,
   }) => osSaveToTable(
     table: table,
     data: data,
+    files: files,
   ).then((v) => v.fold((e) => Left(Exception(e.toString())), Right.new));
 
   /// Saves a file locally for future syncing.

@@ -12,6 +12,7 @@ part of '../functions.dart';
 Future<Either<dynamic, bool>> osSaveToTable({
   required OSyncTable table,
   required Map<String, dynamic> data,
+  Map<String, File>? files,
 }) async {
   try {
     switch (table.tableType) {
@@ -19,7 +20,7 @@ Future<Either<dynamic, bool>> osSaveToTable({
         return _saveToDownloadTable(table, data);
 
       case OSyncTableType.uploadTable:
-        return _saveToUploadTable(table, data);
+        return _saveToUploadTable(table, data, files);
 
       default:
         throw Exception('Unsupported table type: ${table.tableType}');
@@ -65,6 +66,7 @@ Future<Either<dynamic, bool>> _saveToDownloadTable(
 Future<Either<dynamic, bool>> _saveToUploadTable(
   OSyncTable table,
   Map<String, dynamic> data,
+  Map<String, File>? files,
 ) async {
   final hiveTable =
       HiveBoxes.uploadTable.get(table.id) ??
@@ -78,7 +80,7 @@ Future<Either<dynamic, bool>> _saveToUploadTable(
                   .fold<int>(0, (p, e) => e > p ? e : p) +
               1;
 
-  hiveTable.rows.add(OSUploadData(id: nextId, data: data));
+  hiveTable.rows.add(OSUploadData(id: nextId, data: data, files: files));
 
   await hiveTable.saveToHive();
 
