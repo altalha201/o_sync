@@ -42,14 +42,26 @@ Future<Either<dynamic, bool>> osUploadData({
     bool hasError = false;
 
     for (final entry in rows) {
-      final response = await oSNetworkRequestWithFile(
-        "${basicInfo.baseUrl}/${entry.table.apiEndPoint}",
-        entry.table.apiMethode.value,
-        header: headers,
-        body: entry.data.data,
-        files: entry.data.files,
-        showRequestData: true,
-      );
+      late final String response;
+
+      if (entry.data.files?.isNotEmpty ?? false) {
+        response = await oSNetworkRequestWithFile(
+          "${basicInfo.baseUrl}/${entry.table.apiEndPoint}",
+          entry.table.apiMethode.value,
+          header: headers,
+          body: entry.data.data,
+          files: entry.data.files,
+          showRequestData: true,
+        );
+      } else {
+        response = await oSNetworkRequest(
+          "${basicInfo.baseUrl}/${entry.table.apiEndPoint}",
+          entry.table.apiMethode.value,
+          header: headers,
+          body: entry.data.data,
+          showRequestData: true,
+        );
+      }
 
       final responseData = NetworkResponse.fromRawJson(response);
 
