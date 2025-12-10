@@ -1,3 +1,9 @@
+## 0.0.6
+
+- Added support for multipart uploads combining JSON fields and file attachments
+- Extended upload records to include associated file data
+- Updated upload process to use multipart requests for improved API compatibility
+
 ## 0.0.5
 
 - Added ability to delete a row from a table via `OSyncFunctionality.deleteRowFromTable`

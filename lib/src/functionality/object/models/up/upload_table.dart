@@ -1,6 +1,8 @@
 // Copyright (c) 2025 OSync Authors. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the root directory.
 
+import 'dart:io';
+
 import 'package:hive_ce/hive.dart';
 import '../../../../core/constants/hive.dart';
 
@@ -41,14 +43,28 @@ class OSUploadData extends HiveObject {
   @HiveField(2)
   Map<String, Object?>? data;
 
-  OSUploadData({required this.id, this.uploaded = false, this.data});
+  @HiveField(3)
+  Map<String, File>? files;
+
+  OSUploadData({
+    required this.id,
+    this.uploaded = false,
+    this.data,
+    this.files,
+  });
 
   /// Returns a copy of this object with updated fields.
-  OSUploadData copyWith({int? id, bool? uploaded, Map<String, Object?>? data}) {
+  OSUploadData copyWith({
+    int? id,
+    bool? uploaded,
+    Map<String, Object?>? data,
+    Map<String, File>? files,
+  }) {
     return OSUploadData(
       id: id ?? this.id,
       uploaded: uploaded ?? this.uploaded,
       data: data ?? this.data,
+      files: files ?? this.files,
     );
   }
 

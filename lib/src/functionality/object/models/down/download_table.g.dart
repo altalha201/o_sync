@@ -1,6 +1,3 @@
-// Copyright (c) 2025 OSync Authors. All rights reserved.
-// Licensed under the MIT License. See LICENSE in the root directory.
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'download_table.dart';
@@ -23,7 +20,10 @@ class OSDownloadTableAdapter extends TypeAdapter<OSDownloadTable> {
       tableKey: (fields[0] as num).toInt(),
       tableName: fields[1] as String,
       lastUpdated: fields[2] as DateTime,
-      rows: (fields[3] as List).cast<OSDownloadData>(),
+      rows:
+          fields[3] == null
+              ? const []
+              : (fields[3] as List).cast<OSDownloadData>(),
     );
   }
 

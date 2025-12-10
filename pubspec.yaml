@@ -2,7 +2,7 @@ name: o_sync
 description: >
   A Mass Data Transaction package for Flutter/Dart. 
   Provides offline-first sync with Hive, network requests, and file handling.
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/altalha201/o_sync
 repository: https://github.com/altalha201/o_sync
 issue_tracker: https://github.com/altalha201/o_sync/issues

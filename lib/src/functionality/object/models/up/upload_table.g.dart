@@ -1,6 +1,3 @@
-// Copyright (c) 2025 OSync Authors. All rights reserved.
-// Licensed under the MIT License. See LICENSE in the root directory.
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'upload_table.dart';
@@ -22,10 +19,7 @@ class OSUploadTableAdapter extends TypeAdapter<OSUploadTable> {
     return OSUploadTable(
       tableKey: (fields[0] as num).toInt(),
       tableName: fields[1] as String,
-      rows:
-          fields[2] == null
-              ? const []
-              : (fields[2] as List).cast<OSUploadData>(),
+      rows: (fields[2] as List?)?.cast<OSUploadData>(),
     );
   }
 
@@ -65,20 +59,23 @@ class OSUploadDataAdapter extends TypeAdapter<OSUploadData> {
     return OSUploadData(
       id: (fields[0] as num).toInt(),
       uploaded: fields[1] == null ? false : fields[1] as bool,
-      data: (fields[2] as Map?)?.cast<String, dynamic>(),
+      data: (fields[2] as Map?)?.cast<String, Object?>(),
+      files: (fields[3] as Map?)?.cast<String, File>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, OSUploadData obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.uploaded)
       ..writeByte(2)
-      ..write(obj.data);
+      ..write(obj.data)
+      ..writeByte(3)
+      ..write(obj.files);
   }
 
   @override
